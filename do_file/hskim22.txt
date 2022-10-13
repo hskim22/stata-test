@@ -1,0 +1,42 @@
+----------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\서강MOT\고급연구방법론1\StataCorp_Stata_14.2_Revision_19_Dec_2017_Windows\hskim22.txt
+  log type:  text
+ opened on:  12 Oct 2022, 23:15:44
+
+. program coin, rclass
+  1. drop _all
+  2. set obs 30
+  3. generate x=runiform()
+  4. summarize x
+  5. return scalar ucoin=r(mean)
+  6. end 
+
+. set seed 10101
+
+. coin
+number of observations (_N) was 0, now 30
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+           x |         30     .380269    .2706183    .014999    .886691
+
+. simulate xbar=r(ucoin), seed(10101) reps(400) nodots:coin
+
+      command:  coin
+         xbar:  r(ucoin)
+
+
+. summarize xbar
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+        xbar |        400    .4997319    .0506657   .3704593   .6369426
+
+. histogram xbar, normal xtitle("400 samples")
+(bin=20, start=.37045929, width=.01332417)
+
+. 
+end of do-file
+
+. exit, clear
